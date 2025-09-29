@@ -14,7 +14,7 @@ public class TeamMemberCreateDTO {
     private TeamPosition position;
 
     public TeamMember toEntity() {
-        return new TeamMember(name, position);
+        return new TeamMember(); // TODO
     }
 
     public void setName(String name) {

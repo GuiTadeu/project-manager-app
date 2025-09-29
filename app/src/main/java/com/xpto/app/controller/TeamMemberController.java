@@ -17,12 +17,14 @@ import java.net.URI;
 @RequestMapping("/members")
 public class TeamMemberController {
 
+    /*
     private final TeamMemberRepository teamMemberRepository;
 
     public TeamMemberController(TeamMemberRepository teamMemberRepository) {
         this.teamMemberRepository = teamMemberRepository;
-    }
+    }*/
 
+    /*
     @PostMapping
     public ResponseEntity create(@Valid @RequestBody TeamMemberCreateDTO form) {
         TeamMember member = form.toEntity();
@@ -32,5 +34,5 @@ public class TeamMemberController {
                 .buildAndExpand(member.getId()).toUri();
 
         return ResponseEntity.created().build();
-    }
+    }*/
 }
