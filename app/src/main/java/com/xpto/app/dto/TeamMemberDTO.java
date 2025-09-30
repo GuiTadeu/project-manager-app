@@ -5,7 +5,7 @@ import com.xpto.app.model.TeamPosition;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class TeamMemberCreateDTO {
+public class TeamMemberDTO {
 
     @NotBlank(message = "Name is required")
     private String name;
@@ -13,15 +13,17 @@ public class TeamMemberCreateDTO {
     @NotNull(message = "Position is required")
     private TeamPosition position;
 
-    public TeamMember toEntity() {
-        return new TeamMember(); // TODO
-    }
-
-    public void setName(String name) {
+    public TeamMemberDTO(String name, TeamPosition position) {
         this.name = name;
+        this.position = position;
     }
 
-    public void setPosition(TeamPosition position) {
-        this.position = position;
+    public TeamMemberDTO(TeamMember teamMember) {
+        this.name = teamMember.getName();
+        this.position = teamMember.getPosition();
+    }
+
+    public TeamMember toEntity() {
+        return new TeamMember(name, position);
     }
 }

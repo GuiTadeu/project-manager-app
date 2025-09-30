@@ -1,8 +1,6 @@
 package com.xpto.app.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class TeamMember {
@@ -11,13 +9,30 @@ public class TeamMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name is required")
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Position is required")
     private TeamPosition position;
 
     public TeamMember() {
+    }
+
+    public TeamMember(String name, TeamPosition position) {
+        this.name = name;
+        this.position = position;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public TeamPosition getPosition() {
+        return position;
     }
 }
