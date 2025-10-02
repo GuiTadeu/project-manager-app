@@ -2,19 +2,22 @@ package com.xpto.app.model;
 
 public enum ProjectStatus {
 
-    IN_ANALYSIS(0),
-    FINISHED_ANALYSIS(1),
-    APPROVED_ANALYSIS(2),
-    STARTED_PROJECT(3),
-    PLANNED_PROJECT(4),
-    IN_PROGRESS(5),
-    FINISHED(6),
-    CANCELLED(-1);
+    CANCELLED(),
+    FINISHED(CANCELLED),
+    IN_PROGRESS(FINISHED, CANCELLED),
+    PLANNED_PROJECT(IN_PROGRESS, CANCELLED),
+    STARTED_PROJECT(PLANNED_PROJECT, CANCELLED),
+    APPROVED_ANALYSIS(STARTED_PROJECT, CANCELLED),
+    FINISHED_ANALYSIS(APPROVED_ANALYSIS, CANCELLED),
+    IN_ANALYSIS(FINISHED_ANALYSIS, CANCELLED);
 
-    private Integer order;
+    private final ProjectStatus[] nextSteps;
 
-    ProjectStatus(Integer order) {
-        this.order = order;
+    ProjectStatus(ProjectStatus... nextSteps) {
+        this.nextSteps = nextSteps;
     }
 
+    public ProjectStatus[] getNextSteps() {
+        return nextSteps;
+    }
 }

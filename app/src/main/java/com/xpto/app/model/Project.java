@@ -1,9 +1,11 @@
 package com.xpto.app.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Project {
@@ -33,6 +35,11 @@ public class Project {
     @ManyToOne
     @Column(nullable = false)
     private TeamMember manager;
+
+    @ManyToMany
+    @Size(min=1, max = 10)
+    @Column(nullable = false)
+    private List<TeamMember> members;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -92,6 +99,10 @@ public class Project {
         return projectStatus;
     }
 
+    public List<TeamMember> getMembers() {
+        return members;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -122,5 +133,23 @@ public class Project {
 
     public void setProjectStatus(ProjectStatus projectStatus) {
         this.projectStatus = projectStatus;
+    }
+
+    public Boolean isUnfinished() {
+        return projectStatus != ProjectStatus.CANCELLED && projectStatus != ProjectStatus.FINISHED;
+    }
+
+    public Boolean isFinished() {
+        return projectStatus == ProjectStatus.FINISHED && endDate != null;
+    }
+
+    public Boolean addMember(TeamMember member) {
+        return members.add(member);
+    }
+
+    public Boolean canBeDeleted() {
+        return projectStatus != ProjectStatus.STARTED_PROJECT
+                && projectStatus != ProjectStatus.IN_PROGRESS
+                && projectStatus != ProjectStatus.FINISHED;
     }
 }

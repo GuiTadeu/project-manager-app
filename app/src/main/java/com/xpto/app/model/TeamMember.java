@@ -2,6 +2,8 @@ package com.xpto.app.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class TeamMember {
 
@@ -15,6 +17,9 @@ public class TeamMember {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TeamPosition position;
+
+    @ManyToMany
+    private List<Project> projects;
 
     public TeamMember() {
     }
@@ -34,5 +39,22 @@ public class TeamMember {
 
     public TeamPosition getPosition() {
         return position;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public Boolean isNotEmployee() {
+        return position != TeamPosition.EMPLOYEE;
+    }
+
+    public Boolean isOveremployed() {
+        long unfinishedProjectsCount = projects.stream().filter(Project::isUnfinished).count();
+        return unfinishedProjectsCount >= 3;
+    }
+
+    public Boolean isOnAProject() {
+        return projects.size() >= 1;
     }
 }
