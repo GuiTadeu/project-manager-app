@@ -60,14 +60,13 @@ public class ProjectController {
         return ResponseEntity.created(uri).build();
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<ProjectDTO> search(@PathVariable Long id) {
         Project project = projectRepository.findById(id).orElseThrow(NotFoundException::new);
         return ResponseEntity.ok(new ProjectDTO(project));
     }
 
     @PutMapping
-    @Transactional
     public ResponseEntity<ProjectDTO> update(@PathVariable Long id, @RequestBody @Valid ProjectDTO projectDTO) {
         Project project = projectRepository.findById(id).orElseThrow(NotFoundException::new);
         Project updatedProject = projectDTO.update(project);

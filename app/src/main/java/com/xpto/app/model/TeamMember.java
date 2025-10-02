@@ -2,6 +2,7 @@ package com.xpto.app.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,8 +19,8 @@ public class TeamMember {
     @Enumerated(EnumType.STRING)
     private TeamPosition position;
 
-    @ManyToMany
-    private List<Project> projects;
+    @ManyToMany(mappedBy = "members")
+    private List<Project> projects = new ArrayList<>();
 
     public TeamMember() {
     }
@@ -56,5 +57,13 @@ public class TeamMember {
 
     public Boolean isOnAProject() {
         return projects.size() >= 1;
+    }
+
+    public void setPosition(TeamPosition position) {
+        this.position = position;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 }

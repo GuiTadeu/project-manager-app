@@ -1,10 +1,13 @@
 package com.xpto.app.model;
 
+import com.xpto.app.util.ProjectRiskLevel;
+import com.xpto.app.util.RiskCalculator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,17 +36,18 @@ public class Project {
     private String description;
 
     @ManyToOne
-    @Column(nullable = false)
     private TeamMember manager;
 
     @ManyToMany
     @Size(min=1, max = 10)
-    @Column(nullable = false)
-    private List<TeamMember> members;
+    private List<TeamMember> members = new ArrayList<>();
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ProjectStatus projectStatus;
+
+    @Enumerated(EnumType.STRING)
+    private ProjectRiskLevel projectRiskLevel;
 
     public Project(
         String name, LocalDateTime startDate, LocalDateTime expectedEndDate,
@@ -151,5 +155,9 @@ public class Project {
         return projectStatus != ProjectStatus.STARTED_PROJECT
                 && projectStatus != ProjectStatus.IN_PROGRESS
                 && projectStatus != ProjectStatus.FINISHED;
+    }
+
+    public void setMembers(List<TeamMember> members) {
+        this.members = members;
     }
 }
